@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Course</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="wrapper" id = "display">>
+
+        <h1 id  ="course_head"> TV show {{course.id}}</h1>
+      
+       
+        <div id ="course">    
+            <p>Name: {{course.name}}</p>
+            <p>Description: {{course.description.desc}}</p>
+        </div>
+
+        <div class="comment">
+            <form action="/{{course.id}}/comment" method="post">
+                {% csrf_token %}
+                <p id = "comm" >Comment:</p> <textarea name="comm" cols="50" rows="7" type = "text"></textarea>
+                <input type="hidden" name ="new" value="comm">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="comm_display">
+            {% for comment in course.comments.all %}
+                <p>Comment: {{comment.comm}}</p>
+                <p>{{comment.updated_at}}</p>
+                {% endfor %}
+        </div>
+
+        
+</body>

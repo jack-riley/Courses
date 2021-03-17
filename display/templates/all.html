@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Course</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class = "wrapper">
+        <div class="add">
+            <h1 id="add_course">
+                Add a course
+            </h1>
+
+            <form action="/process_new_course" method="post">
+                {% csrf_token %}
+                <p>Name <input id ="name"  name="name" type="text"></p>
+                <p id = "desc" >Description:</p> <textarea name="desc" cols="37" rows="10" type = "text"></textarea>
+                <input type="hidden" name="new" value="new">
+                <button type="submit">Add</button>
+            </form>
+
+        </div>
+        {% if messages %}
+            <ul class="messages">    
+                {% for message in messages %}    
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        <h1>Courses</h1>
+        <div class = "list">
+            <div class = "column" id = "id">
+                <h3>ID</h3>
+                <ul>
+                    {% for course in course_list %}
+                        <li><a href="/Course/{{course.id}}">{{course.id}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>   
+            <div class = "column" id ='cname'>     
+                <h3>Course Name</h3>
+                <ul>
+                    {% for course in course_list %}
+                        <li>{{ course.name }} </li>
+                    {% endfor %}
+                </ul>
+            </div>   
+            <div class = "column" id = "des">
+                <h3>Course Description</h3>
+                <ul>
+                    {% for course in course_list %}
+                        <li id = "des2">{{ course.description.desc }}</li>
+                    {% endfor %}
+                </ul>
+            </div>   
+            <div class = "column">
+                <h3>Date Added</h3>
+                <ul>
+                    {% for course in course_list %}
+                        <li id="release">{{ course.created_at }}</li>
+                    {% endfor %}
+                </ul>
+            </div>   
+
+            <div class = "column" id ="action">
+                <h3>Actions</h3>
+                <ul class="edit">
+                    {% for course in course_list %}
+                        <li class="edit">
+                            <a href="/{{course.id}}">Comment</a>
+                            <a href="/{{course.id}}/delete">Delete</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+              
+            </div> 
+       
+            
+            
+        </div>
+    </div>
+    
+</body>
+</html>
